@@ -1,0 +1,60 @@
+.cube-app { height: 100%; overflow: auto; position: relative; }
+.cube-header { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 16px 24px 12px; flex-wrap: wrap; }
+.cube-brand { display: flex; align-items: center; gap: 13px; }
+.cube-brand > svg { color: var(--fg-secondary); }
+.cube-brand h1 { font-size: var(--font-title); font-weight: 500; }
+.cube-state { display: flex; align-items: center; gap: 7px; color: var(--fg-secondary); font-size: 12px; }
+.state-point { width: 6px; height: 6px; border-radius: 50%; background: var(--fg-muted); }
+.state-point.solved { background: var(--status-success-fg); }
+.move-count { margin-left: 14px; font-variant-numeric: tabular-nums; color: var(--fg-muted); }
+.cube-workspace { min-height: calc(100% - 106px); display: grid; grid-template-columns: minmax(0,1fr) 310px; padding: 0 26px 24px; gap: 32px; }
+.cube-playground { position: relative; min-height: 520px; display: flex; flex-direction: column; }
+.stage-caption { position: absolute; left: 12px; right: 12px; top: 12px; display: flex; align-items: center; justify-content: space-between; z-index: 2; pointer-events: none; }
+.stage-caption > * { pointer-events: auto; }
+.stage-caption > span { font-size: 10px; letter-spacing: .2em; color: var(--fg-muted); }
+.cube-viewport { position: relative; height: clamp(340px, 55vh, 640px); min-height: 280px; flex: 1; touch-action: none; cursor: grab; }
+.cube-viewport:active { cursor: grabbing; }
+.cube-viewport canvas { position: absolute; inset: 0; display: block; width: 100%; height: 100%; }
+.gesture-hint { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 11px; color: var(--fg-muted); margin-top: -10px; }
+.gesture-hint span:first-child { font-size: 12px; color: var(--fg-secondary); }
+.gesture-hint i { display: inline-block; width: 5px; height: 5px; background: var(--fg-secondary); border-radius: 50%; margin-right: 7px; vertical-align: middle; }
+.cube-actions { display: flex; justify-content: center; gap: 8px; margin-top: 16px; flex-wrap: wrap; }
+.cube-actions button { display: inline-flex; align-items: center; justify-content: center; gap: 7px; white-space: nowrap; }
+.cube-sidebar { padding: 24px 0 0; }
+.cube-sidebar > .segmented { width: 100%; }
+.cube-sidebar > .segmented button { flex: 1; font-size: 12px; }
+.practice-view, .face-observer { padding-top: 28px; }
+.section-label { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 15px; }
+.section-label h2 { font-size: var(--font-caption); font-weight: 500; }
+.section-label > span { font-size: 10px; color: var(--fg-muted); }
+.turn-pad { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; }
+.turn-pair { color: var(--raised-fg-primary); background: var(--surface-raised); border: 1px solid var(--border-subtle); border-radius: var(--radius-card); padding: 10px 7px 7px; }
+.turn-pair > span { display: block; width: 16px; height: 3px; background: var(--face-color); border-radius: 3px; margin: 0 0 7px 7px; }
+.turn-pair > div { display: flex; }
+.turn-pair button { flex: 1; min-height: 36px; font-size: 16px; font-weight: 500; }
+.turn-pair button:hover:not(:disabled) { background: var(--raised-interaction-hover); }
+.turn-pair button:last-child { color: var(--fg-muted); font-size: 14px; }
+.turn-pair small { display: block; color: var(--fg-muted); font-size: 9px; font-weight: 400; line-height: 1.2; }
+.lessons { margin-top: 30px; }
+.lesson-card { display: flex; align-items: center; width: 100%; gap: 9px; padding: 12px 0; text-align: left; }
+.lesson-card strong { font-size: 13px; font-weight: 500; display: block; }
+.lesson-card small { color: var(--fg-muted); font-size: 11px; display: block; }
+.lesson-card > span { margin-left: auto; font: 11px ui-monospace,monospace; color: var(--fg-secondary); white-space: nowrap; }
+.lesson-card > svg { color: var(--fg-muted); }
+.lesson-card:hover:not(:disabled) { background: var(--canvas-interaction-hover); }
+.lesson-card { padding-inline: 8px; }
+.ai-observation { display: flex; gap: 9px; margin-top: 30px; color: var(--fg-secondary); font-size: 11px; }
+.ai-observation > svg { flex: none; margin-top: 2px; }
+.ai-observation span { color: var(--fg-muted); }
+.cube-net { display: grid; grid-template-columns: repeat(4,1fr); grid-template-rows: repeat(3,auto); gap: 12px 6px; margin-top: 30px; }
+.net-face > span { display: block; color: var(--fg-muted); font-size: 9px; margin-bottom: 4px; }
+.net-face > div { display: grid; grid-template-columns: repeat(3,1fr); gap: 3px; padding: 4px; background: var(--surface-raised); border: 1px solid var(--border-subtle); border-radius: var(--radius-small); }
+.net-face i { aspect-ratio: 1; border-radius: 2px; }
+.net-U { grid-column: 2; grid-row: 1; }.net-L { grid-column: 1; grid-row: 2; }.net-F { grid-column: 2; grid-row: 2; }.net-R { grid-column: 3; grid-row: 2; }.net-B { grid-column: 4; grid-row: 2; }.net-D { grid-column: 2; grid-row: 3; }
+.face-note { color: var(--fg-muted); font-size: 12px; margin-top: 26px; line-height: 1.9; }
+.formula { display: flex; flex-wrap: wrap; gap: 8px; margin: 35px 0 25px; }
+.formula span { padding: 10px 12px; background: var(--surface-raised); border-radius: var(--radius-control); font: var(--font-title) var(--font-mono); }
+.lesson-description { color: var(--fg-secondary); line-height: 1.95; margin-bottom: 30px; }
+.lesson-footnote { color: var(--fg-muted); font-size: 12px; margin-top: 12px; }
+@media(max-width: 850px) { .cube-workspace { grid-template-columns: minmax(0,1fr); gap: 12px; }.cube-playground { min-height: 430px; }.cube-sidebar { padding: 14px 0; }.practice-view { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }.lessons { margin: 0; }.ai-observation { grid-column: 1 / -1; margin-top: 4px; }.cube-net { max-width: 400px; margin-inline: auto; }.cube-viewport { height: 380px; } }
+@media(max-width: 480px) { .cube-header { padding: 18px 20px 12px; }.cube-header h1 { font-size: 19px; }.cube-workspace { padding: 0 18px 20px; }.cube-playground { min-height: 400px; }.cube-viewport { min-height: 290px; height: 310px; }.practice-view { display: block; }.lessons { margin-top: 26px; }.cube-actions { gap: 6px; }.cube-actions button { padding-inline: 12px; font-size: 12px; }.move-count { margin-left: 5px; } }

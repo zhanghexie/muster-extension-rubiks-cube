@@ -1,0 +1,173 @@
+:root {
+  --ease-standard: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-exit: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-hover: ease-out;
+  --ease-move: cubic-bezier(0.33, 0.1, 0.25, 1);
+  --ease-loop: cubic-bezier(0.37, 0, 0.63, 1);
+  --dur-micro: 120ms;
+  --dur-menu: 160ms;
+  --dur-panel: 280ms;
+  --dur-exit: 200ms;
+  --dur-move: 420ms;
+  --dur-workspace: 360ms;
+  --dur-workspacefade: 160ms;
+  --dur-stagger: 30ms;
+  --dur-loop: 900ms;
+  --dur-breath: 1800ms;
+}
+.mp-panel {
+  transition:
+    opacity var(--dur-panel) var(--ease-standard),
+    transform var(--dur-panel) var(--ease-standard);
+}
+
+.mp-panel[data-mp-stage='enter'] {
+  opacity: 0;
+  transform: translateY(8px) scale(0.985);
+  transition: none; /* 起始态：usePresence 在 layout 阶段落成计算样式后切 in 起播 */
+}
+
+.mp-panel[data-mp-stage='in'] {
+  opacity: 1;
+  transform: none;
+}
+
+.mp-panel[data-mp-stage='out'] {
+  opacity: 0;
+  transform: translateY(6px) scale(0.992);
+  transition-duration: var(--dur-exit), var(--dur-exit);
+  transition-timing-function: var(--ease-exit), var(--ease-exit);
+  pointer-events: none; /* 退场层不可交互：既避免误点，也免去调用方闭包悬空 */
+}
+
+/* 顶部对齐浮层（命令面板等）：入场方向改为自上而下 */
+.mp-panel-top[data-mp-stage='enter'] {
+  transform: translateY(-8px) scale(0.99);
+}
+
+.mp-panel-top[data-mp-stage='out'] {
+  transform: translateY(-6px) scale(0.995);
+}
+
+/* 顶栏下方整面板飞入/飞出：审核、运行监视器和搜索与全局看板共用同一套节拍。
+ * --mp-fly-gap 由外层布局提供，动画参数仍只来自 motion tokens。 */
+.mp-panel-fly {
+  --mp-fly-gap: 72px;
+  transition:
+    opacity var(--dur-panel) var(--ease-standard),
+    transform var(--dur-panel) var(--ease-standard);
+  transform: translateY(calc(-100% - var(--mp-fly-gap)));
+}
+
+.mp-panel-fly[data-mp-stage='enter'] {
+  opacity: 0;
+  transform: translateY(calc(-100% - var(--mp-fly-gap)));
+  transition: none;
+}
+
+.mp-panel-fly[data-mp-stage='in'] {
+  opacity: 1;
+  transform: none;
+}
+
+.mp-panel-fly[data-mp-stage='out'] {
+  opacity: 0;
+  transform: translateY(calc(-100% - var(--mp-fly-gap)));
+  transition-duration: var(--dur-exit), var(--dur-exit);
+  transition-timing-function: var(--ease-exit), var(--ease-exit);
+  pointer-events: none;
+}
+
+/* 菜单/小浮层：更快一档，位移更小（默认万向：scale+opacity，不带轴向位移） */
+.mp-pop {
+  transition:
+    opacity var(--dur-menu) var(--ease-standard),
+    transform var(--dur-menu) var(--ease-standard);
+}
+
+.mp-pop[data-mp-stage='enter'] {
+  opacity: 0;
+  transform: scale(0.98);
+  transition: none;
+}
+
+.mp-pop[data-mp-stage='in'] {
+  opacity: 1;
+  transform: none;
+}
+
+.mp-pop[data-mp-stage='out'] {
+  opacity: 0;
+  transform: scale(0.985);
+  transition-duration: var(--dur-micro), var(--dur-micro);
+  transition-timing-function: var(--ease-exit), var(--ease-exit);
+  pointer-events: none;
+}
+
+/* 向上弹出的菜单（composer 菜单等）：自下而上 4px 入场 */
+.mp-pop-up[data-mp-stage='enter'] {
+  transform: translateY(4px) scale(0.98);
+}
+
+.mp-pop-up[data-mp-stage='out'] {
+  transform: translateY(2px) scale(0.985);
+}
+
+/* 全屏 scrim 遮罩：只动 opacity */
+.mp-scrim {
+  transition: opacity var(--dur-panel) var(--ease-standard);
+}
+
+/* 图片大图查看器同源的全屏玻璃遮罩：静态 backdrop-filter，避免面板后方内容直冲前景。 */
+.backdrop-blur-overlay {
+  background: var(--scrim);
+  backdrop-filter: var(--backdrop-blur);
+  -webkit-backdrop-filter: var(--backdrop-blur);
+}
+
+.mp-scrim[data-mp-stage='enter'] {
+  opacity: 0;
+  transition: none;
+}
+
+.mp-scrim[data-mp-stage='in'] {
+  opacity: 1;
+}
+
+.mp-scrim[data-mp-stage='out'] {
+  opacity: 0;
+  transition-duration: var(--dur-exit);
+  transition-timing-function: var(--ease-exit);
+  pointer-events: none;
+}
+
+html, body, #root { margin: 0; width: 100%; height: 100%; }
+* { box-sizing: border-box; }
+body { background: var(--surface-canvas); color: var(--fg-primary); font: var(--font-control)/1.6 var(--font-sans, system-ui); }
+button, input, select { font: inherit; color: inherit; }
+button { cursor: pointer; }
+button:disabled { cursor: default; color: var(--fg-disabled); }
+button { border: 0; background: none; }
+button:focus-visible, input:focus-visible, select:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--border-focus); outline-offset: 3px; }
+button, input { border-radius: var(--radius-control); }
+h1, h2, h3, p { margin: 0; }
+.icon-button { width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; flex: none; color: var(--fg-secondary); }
+.icon-button:hover:not(:disabled) { background: var(--canvas-interaction-hover); color: var(--canvas-fg-primary); }
+.soft-button:hover:not(:disabled) { background: var(--raised-interaction-hover); color: var(--raised-fg-primary); }
+.soft-button { min-height: 28px; padding: 4px 8px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; border: 1px solid var(--border-control); background: var(--surface-raised); }
+.primary-button { min-height: 28px; padding: 4px 12px; color: var(--action-fg); background: var(--action-bg); border-radius: var(--radius-control); }
+.primary-button:hover:not(:disabled) { background: var(--action-hover); color: var(--action-hover-fg); }
+.eyebrow { font-size: var(--font-caption); font-weight: 500; letter-spacing: .02em; color: var(--fg-muted); }
+.primary-button:disabled { color: var(--fg-disabled); background: var(--surface-raised); }
+.muted { color: var(--fg-muted); }
+.error-banner { margin: 12px 20px; padding: 10px 14px; border-radius: var(--radius-control); color: var(--status-danger-fg); background: var(--status-danger-bg); }
+.loading { padding: 40px; color: var(--fg-secondary); }
+.segmented { display: inline-flex; gap: 3px; padding: 3px; border-radius: var(--radius-control); background: var(--surface-chrome); }
+.segmented button { min-height: 28px; padding: 4px 8px; color: var(--chrome-fg-secondary); }
+.segmented button:hover:not(:disabled) { background: var(--chrome-interaction-hover); }
+.segmented button[aria-pressed="true"] { background: var(--chrome-interaction-selected); color: var(--chrome-fg-selected-primary); }
+.segmented button[aria-pressed="true"]:hover:not(:disabled) { background: var(--chrome-interaction-selected-hover); }
+.overlay { position: absolute; inset: 0; z-index: 30; display: flex; justify-content: flex-end; background: var(--scrim); }
+.drawer { width: min(360px, calc(100% - 32px)); padding: 24px; overflow: auto; background: var(--surface-overlay); color: var(--fg-primary); box-shadow: var(--shadow-pop); }
+.drawer header { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 24px; }
+.drawer h2 { font-size: var(--font-title); font-weight: 500; }

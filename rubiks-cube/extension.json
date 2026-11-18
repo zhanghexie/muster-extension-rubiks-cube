@@ -1,0 +1,166 @@
+{
+  "id": "rubiks-cube",
+  "name": "魔方",
+  "description": "精细三维魔方、直接拖转、公式练习；AI 仅根据当前六面观察与推理。",
+  "version": "1.0.1",
+  "icon": "builtin-extension:rubiks-cube",
+  "scope": "global",
+  "surface": {
+    "kind": "sidebar",
+    "entry": "ui/panel.html",
+    "title": "魔方"
+  },
+  "domain": {
+    "entry": "domain.mjs",
+    "queries": [
+      "cube.state",
+      "cube.analyze"
+    ],
+    "commands": [
+      "cube.move",
+      "cube.sequence",
+      "cube.scramble",
+      "cube.reset",
+      "cube.undo"
+    ],
+    "events": [
+      "state.changed"
+    ],
+    "queryDefs": [
+      {
+        "id": "cube.state",
+        "title": "读取魔方完整状态",
+        "permission": "read",
+        "parameters": {
+          "type": "object"
+        }
+      },
+      {
+        "id": "cube.analyze",
+        "title": "分析当前各面同色贴片",
+        "permission": "read",
+        "parameters": {
+          "type": "object"
+        }
+      }
+    ],
+    "commandDefs": [
+      {
+        "id": "cube.move",
+        "title": "转动一层",
+        "permission": "edit",
+        "parameters": {
+          "type": "object",
+          "required": [
+            "move"
+          ],
+          "properties": {
+            "move": {
+              "enum": [
+                "U",
+                "U'",
+                "U2",
+                "D",
+                "D'",
+                "D2",
+                "L",
+                "L'",
+                "L2",
+                "R",
+                "R'",
+                "R2",
+                "F",
+                "F'",
+                "F2",
+                "B",
+                "B'",
+                "B2",
+                "M",
+                "M'",
+                "M2",
+                "E",
+                "E'",
+                "E2",
+                "S",
+                "S'",
+                "S2"
+              ]
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      {
+        "id": "cube.sequence",
+        "title": "执行一连串转动",
+        "permission": "edit",
+        "parameters": {
+          "type": "object",
+          "required": [
+            "moves"
+          ],
+          "properties": {
+            "moves": {
+              "type": "array",
+              "minItems": 1,
+              "maxItems": 40,
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      {
+        "id": "cube.scramble",
+        "title": "打乱魔方",
+        "permission": "edit",
+        "parameters": {
+          "type": "object",
+          "properties": {
+            "steps": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 40
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      {
+        "id": "cube.reset",
+        "title": "复原到初始状态",
+        "permission": "edit",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false
+        }
+      },
+      {
+        "id": "cube.undo",
+        "title": "撤销上一步转动",
+        "permission": "edit",
+        "parameters": {
+          "type": "object",
+          "additionalProperties": false
+        }
+      }
+    ]
+  },
+  "agent": {
+    "profile": "scheduler-pi",
+    "systemPrompt": "agent.md",
+    "skills": [],
+    "mcp": []
+  },
+  "data": {
+    "workspace": true,
+    "shared": false
+  },
+  "permissions": [
+    "agent.state",
+    "agent.commands",
+    "theme"
+  ]
+}

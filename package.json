@@ -1,0 +1,19 @@
+{
+  "name": "muster-extension-rubiks-cube",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs",
+    "test": "node --test test/*.mjs && vitest run --environment jsdom --globals"
+  },
+  "devDependencies": {
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "esbuild": "0.21.5",
+    "three": "0.186.1",
+    "vitest": "3.2.7",
+    "jsdom": "30.0.1",
+    "@testing-library/react": "16.3.3",
+    "@testing-library/dom": "10.4.2"
+  }
+}
